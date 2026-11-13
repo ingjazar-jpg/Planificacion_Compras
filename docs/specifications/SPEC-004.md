@@ -5,7 +5,7 @@
 | Proyecto | Sistema de Planificación y Presupuesto de Compras para Navidad y Fin de Año |
 | Identificador | SPEC-004 |
 | Versión | 0.2 |
-| Estado | Presentada en revisión; aprobación final no acreditada |
+| Estado | Aprobada y refinada |
 | Prefijo | `/api/v1` |
 
 ## 1. Convenciones recuperadas
@@ -29,7 +29,7 @@
 
 Códigos HTTP identificados: `200`, `201`, `204`, `400`, `404`, `409`, `422`, `500`.
 
-La asignación exacta de cada código a cada escenario debe cotejarse con el texto original de SPEC-004.
+La asignación exacta de cada código a cada escenario debe conservarse conforme a los criterios API-001 a API-020 aprobados.
 
 ## 2. Inventario de endpoints recuperados
 
@@ -68,6 +68,8 @@ En el historial consta que existían criterios identificados como API-001 a API-
 
 ## 5. Estado y limitación documental
 
-SPEC-004 v0.2 fue presentada para revisión. Aunque se recuperaron las rutas y convenciones principales, no hay evidencia suficiente de aprobación final. Antes de declarar cerrado el contrato se deben cotejar los esquemas request/response, obligatoriedad de campos, validaciones, códigos de error y criterios API-001 a API-020.
+SPEC-004 v0.2 está aprobada y refinada. Esta actualización corrige la metadata documental para reflejar la decisión de producto ya confirmada; no reabre la aprobación ni modifica los contratos acordados.
 
-Este archivo es un inventario contractual recuperado, no una especificación API completa lista para congelar.
+La copia de este archivo en GitHub todavía no reproduce íntegramente todos los esquemas request/response ni el texto completo de los criterios API-001 a API-020. Por tanto, debe completarse la transcripción documental a partir de los contratos aprobados y del historial del proyecto. Esta limitación del archivo no invalida ni suspende la aprobación de SPEC-004 v0.2.
+
+Los contratos vigentes se implementan bajo el prefijo `/api/v1`; las decisiones de refinamiento aprobadas prevalecen sobre cualquier metadata o nota desactualizada que hubiera quedado en esta copia documental.
