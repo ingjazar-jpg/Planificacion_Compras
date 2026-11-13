@@ -1,10 +1,10 @@
 
 from typing import Literal
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
 
 from app.api.dependencies import get_product_service
-from app.models.entities import TipoCelebracion
+from app.models.entities import CategoriaProducto, EstadoProducto, TipoCelebracion
 from app.schemas.product_schemas import (
     ActualizarProductoRequest,
     CorregirCompraRequest,
@@ -14,6 +14,16 @@ from app.schemas.product_schemas import (
     ProductoResponse,
 )
 from app.services.product_service import ProductService
+
+
+CATEGORY_FILTER_VALUES = {
+    "alimentos": CategoriaProducto.ALIMENTOS,
+    "bebidas": CategoriaProducto.BEBIDAS,
+    "ingredientes": CategoriaProducto.INGREDIENTES,
+    "decoracion": CategoriaProducto.DECORACION,
+    "desechables_utensilios": CategoriaProducto.DESECHABLES_UTENSILIOS,
+    "otros": CategoriaProducto.OTROS,
+}
 
 
 router = APIRouter(tags=["Productos y compras"])
@@ -58,12 +68,40 @@ def register_product(
 def list_products(
     anio: int,
     tipo: Literal["navidad", "fin_anio"],
+    categoria: str | None = Query(default=None),
+    estado: Literal["pendiente", "comprado"] | None = Query(default=None),
+    buscar: str | None = Query(default=None, min_length=1),
     service: ProductService = Depends(get_product_service),
 ):
     productos = service.list_products(
         year=anio,
         celebration_type=_get_celebration_type(tipo),
     )
+
+    if categoria:
+        categoria_enum = CATEGORY_FILTER_VALUES.get(categoria)
+        if categoria_enum is None:
+            productos = []
+        else:
+            productos = [
+                producto for producto in productos
+                if producto.categoria == categoria_enum
+            ]
+
+    if estado:
+        estado_enum = EstadoProducto(estado)
+        productos = [
+            producto for producto in productos
+            if producto.estado == estado_enum
+        ]
+
+    if buscar:
+        termino = buscar.strip().casefold()
+        productos = [
+            producto for producto in productos
+            if termino in producto.nombre.casefold()
+            or (producto.descripcion and termino in producto.descripcion.casefold())
+        ]
 
     return {"productos": productos}
 
