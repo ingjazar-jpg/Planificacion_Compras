@@ -59,5 +59,9 @@ Entregar un frontend funcional integrado exclusivamente con la API REST de FastA
 - [x] Gestión de productos y filtros.
 - [x] Flujos de compra y corrección.
 - [x] Alineación de alertas backend con SPEC-002 v0.3.
-- [ ] Pruebas funcionales y build local.
-- [ ] Actualización documental final, validación y publicación.
+- [x] Pruebas funcionales manuales de los flujos principales: creación de año, presupuestos, registro y edición de pendientes, filtros, compra, corrección de compra, restricciones de productos comprados, dashboard, aislamiento por celebración y bloqueo de años anteriores.
+- [x] Persistencia comprobada después de reiniciar el backend.
+- [x] Suite backend: **101 pruebas aprobadas** (`python -m pytest -v`, 1.95 s).
+- [x] Build frontend: **correcto** (`npm run build`, Vite 8.3.8, 275 ms).
+- [ ] Revisión final del estado Git y publicación de cierre en la rama de trabajo.
+- [ ] Completar la transcripción documental de los contratos aprobados de SPEC-004, sin alterar su contenido ni estado de aprobación.
