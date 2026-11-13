@@ -31,11 +31,12 @@ Entregar un frontend funcional integrado exclusivamente con la API REST de FastA
 - Los errores se presentan desde la estructura uniforme `error.codigo`, `error.mensaje`, `error.detalles`.
 - No se inventan rutas, parámetros ni propiedades que no estén en el contrato.
 
-## Desviaciones detectadas para resolver
+## Verificaciones y ajustes de integración
 
-1. El endpoint de catálogos publica valores slug como `alimentos` y `kilogramo`, pero los schemas de producto validan valores de enum como `Alimentos` y `Kilogramo`. Debe alinearse el catálogo con el contrato de escritura y cubrirse con pruebas.
-2. El contrato aprobado contempla filtros `categoria`, `estado` y `buscar`, pero la implementación actual del endpoint de listado no recibe esos parámetros. Debe implementarse y probarse en backend antes de activar filtros remotos en UI.
-3. El archivo documental SPEC-004 en GitHub tiene metadata y secciones incompletas. Su estado aprobado/refinado ya fue confirmado por la responsable del producto; actualizar la documentación sin alterar el contrato funcional ni reabrir su aprobación.
+1. Se confirmó que los schemas de producto de la rama aceptan los valores slug publicados por `/catalogos` y los normalizan a los enums internos.
+2. Se confirmó que el listado de productos admite los filtros `categoria`, `estado` y `buscar`, utilizados por la interfaz.
+3. Se alineó la generación de alertas con SPEC-002 v0.3: solo se genera alerta cuando el gasto real supera el presupuesto correspondiente. Se retiraron las alertas preventivas al 80% y las alertas por asignación superior al presupuesto general.
+4. La metadata y el contenido documental de SPEC-004 requieren una actualización final, sin modificar su contrato aprobado ni reabrir su aprobación.
 
 ## Criterios de aceptación
 
@@ -54,9 +55,9 @@ Entregar un frontend funcional integrado exclusivamente con la API REST de FastA
 - [x] Base React/Vite y proxy de API.
 - [x] Cliente API centralizado.
 - [x] Dashboard anual inicial conectado a la API.
-- [ ] Gestión de años y presupuestos.
-- [ ] Gestión de productos y filtros.
-- [ ] Flujos de compra y corrección.
-- [ ] Correcciones de integración backend.
+- [x] Gestión de años y presupuestos.
+- [x] Gestión de productos y filtros.
+- [x] Flujos de compra y corrección.
+- [x] Alineación de alertas backend con SPEC-002 v0.3.
 - [ ] Pruebas funcionales y build local.
-- [ ] Documentación final y publicación.
+- [ ] Actualización documental final, validación y publicación.
