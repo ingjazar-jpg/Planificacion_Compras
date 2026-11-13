@@ -1,5 +1,14 @@
-# Proyecto 2: Sistema de Planificación y Presupuesto de Compras
+# Sistema de Planificación y Presupuesto de Compras
 
-Estructura inicial de carpetas. Los directorios están preparados para incorporar el código, las especificaciones Markdown y la documentación del proyecto.
+Sistema para planificar y controlar el presupuesto de compras navideñas de Navidad y Fin de Año.
 
-Las especificaciones aprobadas deben conservarse en `docs/specifications/` y la arquitectura en `docs/architecture/`.
+## Estructura del proyecto
+
+El repositorio contiene el código fuente, las pruebas, las especificaciones y la documentación técnica del sistema.
+
+## Documentación
+
+- Las especificaciones funcionales aprobadas se conservan en `docs/specifications/`.
+- La arquitectura técnica se documenta en `docs/architecture/`.
+
+Las especificaciones aprobadas constituyen la fuente de verdad para el desarrollo del proyecto.
