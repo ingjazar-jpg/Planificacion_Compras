@@ -74,7 +74,6 @@ export default function App() {
   const [productForm, setProductForm] = useState(EMPTY_PRODUCT);
   const [purchaseProduct, setPurchaseProduct] = useState(null);
   const [purchasePrice, setPurchasePrice] = useState("");
-  const [purchaseCorrection, setPurchaseCorrection] = useState(false);
 
   const isReadOnly = selectedYear && Number(selectedYear) < new Date().getFullYear();
 
@@ -265,7 +264,6 @@ export default function App() {
   function openPurchase(product) {
     setPurchaseProduct(product);
     setPurchasePrice(product.precio_unitario_estimado ?? "");
-    setPurchaseCorrection(false);
   }
 
   async function handlePurchase(event) {
@@ -332,7 +330,7 @@ export default function App() {
       {page === "years" && <section className="page-section">
         <div className="section-heading"><div><h2>Crear año de planificación</h2><p>Define el periodo y los presupuestos iniciales opcionales.</p></div></div>
         <form className="panel form-grid" onSubmit={handleCreateYear}>
-          <Field label="Año"><input type="number" min={new Date().getFullYear()} max="2100" required value={yearForm.anio} onChange={(e) => setYearForm({ ...yearForm, anio: e.target.value })} /></Field>
+          <Field label="Año"><input type="number" min={new Date().getFullYear()} required value={yearForm.anio} onChange={(e) => setYearForm({ ...yearForm, anio: e.target.value })} /></Field>
           <Field label="Presupuesto general (COP)"><input type="number" min="0" step="0.01" value={yearForm.presupuesto_general} onChange={(e) => setYearForm({ ...yearForm, presupuesto_general: e.target.value })} placeholder="Opcional" /></Field>
           <Field label="Presupuesto Navidad (COP)"><input type="number" min="0" step="0.01" value={yearForm.presupuesto_navidad} onChange={(e) => setYearForm({ ...yearForm, presupuesto_navidad: e.target.value })} placeholder="Opcional" /></Field>
           <Field label="Presupuesto Fin de Año (COP)"><input type="number" min="0" step="0.01" value={yearForm.presupuesto_fin_anio} onChange={(e) => setYearForm({ ...yearForm, presupuesto_fin_anio: e.target.value })} placeholder="Opcional" /></Field>
