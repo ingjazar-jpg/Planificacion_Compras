@@ -20,6 +20,28 @@ from app.models.entities import (
 )
 
 
+CATEGORY_CATALOG_VALUES = {
+    "alimentos": "Alimentos",
+    "bebidas": "Bebidas",
+    "ingredientes": "Ingredientes",
+    "decoracion": "Decoración",
+    "desechables_utensilios": "Desechables y utensilios",
+    "otros": "Otros",
+}
+
+UNIT_CATALOG_VALUES = {
+    "unidad": "Unidad",
+    "kilogramo": "Kilogramo",
+    "gramo": "Gramo",
+    "litro": "Litro",
+    "mililitro": "Mililitro",
+    "paquete": "Paquete",
+    "botella": "Botella",
+    "docena": "Docena",
+    "otro": "Otro",
+}
+
+
 class ProductRequestBase(BaseModel):
     """Campos compartidos para registrar y editar productos."""
 
@@ -31,6 +53,20 @@ class ProductRequestBase(BaseModel):
     cantidad: Decimal = Field(gt=0)
     unidad: UnidadProducto
     precio_unitario_estimado: Decimal = Field(ge=0)
+
+    @field_validator("categoria", mode="before")
+    @classmethod
+    def normalize_category_catalog_value(cls, value: object) -> object:
+        if isinstance(value, str):
+            return CATEGORY_CATALOG_VALUES.get(value, value)
+        return value
+
+    @field_validator("unidad", mode="before")
+    @classmethod
+    def normalize_unit_catalog_value(cls, value: object) -> object:
+        if isinstance(value, str):
+            return UNIT_CATALOG_VALUES.get(value, value)
+        return value
 
     @field_validator(
         "cantidad",
