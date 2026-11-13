@@ -5,6 +5,7 @@ from app.api.reports import router as reports_router
 from app.api.years import router as years_router
 from app.core.exception_handlers import register_exception_handlers
 from app.api.products import router as products_router
+from app.api.catalogs import router as catalogs_router
 
 
 app = FastAPI(
@@ -30,4 +31,9 @@ app.include_router(
 app.include_router(
     products_router,
     prefix="/api/v1"
+)
+
+app.include_router(
+    catalogs_router,
+    prefix="/api/v1",
 )
