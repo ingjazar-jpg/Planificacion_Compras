@@ -41,6 +41,19 @@ class DashboardResponse(ReportResponseBase):
     celebraciones: dict[str, CelebracionDashboardResponse]
     alertas: list[AlertaResponse]
 
+class ResumenAnualCelebracionResponse(ReportResponseBase):
+    """Presupuesto y gasto real de una celebración."""
+
+    presupuesto: str | None
+    gasto_real: str
+    saldo: str | None
+
+
+class ResumenAnualResponse(ReportResponseBase):
+    """Resumen anual de Navidad y Fin de Año."""
+
+    anio: int
+    celebraciones: dict[str, ResumenAnualCelebracionResponse]
 
 class ResumenCelebracionResponse(ReportResponseBase):
     """Resumen individual de Navidad o Fin de Año."""

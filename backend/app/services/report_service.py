@@ -203,6 +203,35 @@ class ReportService:
             "alertas": cls.generar_alertas(anio),
         }
 
+
+    @classmethod
+    def resumen_anual(cls, anio: Anio) -> dict:
+        """Consolida presupuesto y gasto real de cada celebración."""
+
+        celebraciones = {}
+
+        for celebracion in anio.celebraciones:
+            indicadores = indicadores_celebracion(celebracion)
+
+            clave = cls._alcance_celebracion(celebracion)
+
+            celebraciones[clave] = {
+                "presupuesto": formato_decimal(
+                    celebracion.presupuesto
+                ),
+                "gasto_real": formato_decimal(
+                    indicadores["gasto_real"]
+                ),
+                "saldo": formato_decimal(
+                    indicadores["saldo"]
+                ),
+            }
+
+        return {
+            "anio": anio.anio,
+            "celebraciones": celebraciones,
+        }
+
     @classmethod
     def resumen_celebracion(
         cls,

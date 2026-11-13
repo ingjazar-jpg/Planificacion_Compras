@@ -379,3 +379,59 @@ def test_nuevos_reportes_aparecen_en_openapi():
         "/api/v1/anios/{anio}/estadisticas/categorias"
         in schema["paths"]
     )
+
+def test_resumen_anual_devuelve_datos_de_ambas_celebraciones():
+    anio = crear_anio_con_productos()
+    configurar_servicio(anio=anio)
+
+    try:
+        response = client.get(
+            "/api/v1/anios/2027/resumen"
+        )
+
+        assert response.status_code == 200
+
+        datos = response.json()
+
+        assert datos["anio"] == 2027
+
+        assert datos["celebraciones"]["navidad"] == {
+            "presupuesto": "1000000.00",
+            "gasto_real": "200.00",
+            "saldo": "999800.00",
+        }
+
+        assert datos["celebraciones"]["fin_anio"] == {
+            "presupuesto": "500000.00",
+            "gasto_real": "80.00",
+            "saldo": "499920.00",
+        }
+
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_resumen_anual_devuelve_error_si_anio_no_existe():
+    configurar_servicio(
+        error=YearNotFoundError("No existe el año.")
+    )
+
+    try:
+        response = client.get(
+            "/api/v1/anios/2027/resumen"
+        )
+
+        assert response.status_code == 404
+        assert (
+            response.json()["error"]["codigo"]
+            == "ANIO_NO_ENCONTRADO"
+        )
+
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_resumen_anual_aparece_en_openapi():
+    schema = client.get("/openapi.json").json()
+
+    assert "/api/v1/anios/{anio}/resumen" in schema["paths"]

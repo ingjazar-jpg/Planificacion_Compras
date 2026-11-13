@@ -11,13 +11,36 @@ from app.schemas.report_schemas import (
 )
 from app.services.report_service import ReportService
 from app.services.year_service import YearService
-
+from app.schemas.report_schemas import (
+    DashboardResponse,
+    EstadisticasCategoriasResponse,
+    ResumenAnualResponse,
+    ResumenCelebracionResponse,
+)
 
 router = APIRouter(
     prefix="/anios",
     tags=["Reportes"],
 )
 
+@router.get(
+    "/{anio}/resumen",
+    response_model=ResumenAnualResponse,
+    summary="Consultar resumen anual",
+    description=(
+        "Obtiene el presupuesto, gasto real y saldo "
+        "de Navidad y Fin de Año."
+    ),
+)
+def obtener_resumen_anual(
+    anio: int,
+    year_service: YearService = Depends(get_year_service),
+) -> dict:
+    """Consulta el resumen consolidado de un año."""
+
+    registro = year_service.get_year(anio)
+
+    return ReportService.resumen_anual(registro)
 
 @router.get(
     "/{anio}/dashboard",

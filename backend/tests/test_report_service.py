@@ -362,3 +362,51 @@ def test_dashboard_incluye_lista_de_alertas():
 
     assert "alertas" in resultado
     assert isinstance(resultado["alertas"], list)
+
+def test_resumen_anual_consolida_presupuesto_y_gasto_por_celebracion():
+    anio = crear_anio(
+        productos_navidad=[
+            crear_producto(
+                cantidad="2",
+                estado=EstadoProducto.COMPRADO,
+                precio_real="100",
+            )
+        ],
+        productos_fin_anio=[
+            crear_producto(
+                cantidad="1",
+                estado=EstadoProducto.COMPRADO,
+                precio_real="80",
+            )
+        ],
+    )
+
+    resultado = ReportService.resumen_anual(anio)
+
+    assert resultado["anio"] == 2027
+
+    assert resultado["celebraciones"]["navidad"] == {
+        "presupuesto": "1200000.00",
+        "gasto_real": "200.00",
+        "saldo": "1199800.00",
+    }
+
+    assert resultado["celebraciones"]["fin_anio"] == {
+        "presupuesto": "800000.00",
+        "gasto_real": "80.00",
+        "saldo": "799920.00",
+    }
+
+def test_resumen_anual_representa_presupuestos_no_configurados():
+    anio = crear_anio(
+        presupuesto_general=None,
+        presupuesto_navidad=None,
+        presupuesto_fin_anio=None,
+    )
+
+    resultado = ReportService.resumen_anual(anio)
+
+    for celebracion in resultado["celebraciones"].values():
+        assert celebracion["presupuesto"] is None
+        assert celebracion["gasto_real"] == "0.00"
+        assert celebracion["saldo"] is None
