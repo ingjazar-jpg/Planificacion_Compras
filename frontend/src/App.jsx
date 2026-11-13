@@ -42,6 +42,7 @@ function CelebrationCard({ celebration, label }) {
     <div className="celebration-card__grid">
       <div><span>Presupuesto</span><strong>{formatCurrency(celebration.presupuesto)}</strong></div>
       <div><span>Gasto real</span><strong>{formatCurrency(celebration.gasto_real)}</strong></div>
+      <div><span>Gasto estimado</span><strong>{formatCurrency(celebration.gasto_estimado)}</strong></div>
       <div><span>Saldo</span><strong>{formatCurrency(celebration.saldo)}</strong></div>
     </div>
     <div className="progress-heading"><span>Avance de compras</span><strong>{formatPercent(celebration.avance_compras)}</strong></div>
