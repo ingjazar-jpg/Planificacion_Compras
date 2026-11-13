@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #172A46;
+  background: #F3F6FA;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --color-primary: #172A46;
+  --color-green: #2E6B5B;
+  --color-gold: #D9C28F;
+  --color-background: #F3F6FA;
+  --color-surface: #FFFFFF;
+  --color-border: #E5EAF0;
+  --color-muted: #718096;
+  --radius-card: 16px;
+  --shadow-card: 0 5px 20px rgba(23, 42, 70, 0.045);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input, select, textarea { font: inherit; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid rgba(46, 107, 91, .25); outline-offset: 2px; }
+button:disabled { cursor: not-allowed; }
+#root { min-height: 100vh; }

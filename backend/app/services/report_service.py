@@ -17,7 +17,6 @@ from app.services.calculation_service import (
 )
 
 CERO = Decimal("0.00")
-UMBRAL_ALERTA = Decimal("0.80")
 DOS_DECIMALES = Decimal("0.01")
 
 
@@ -83,19 +82,6 @@ class ReportService:
         if presupuesto is None or presupuesto <= CERO:
             return alertas
 
-        porcentaje = gasto_real / presupuesto * Decimal("100")
-
-        if gasto_real >= presupuesto * UMBRAL_ALERTA:
-            alertas.append(
-                {
-                    "codigo": "PRESUPUESTO_80",
-                    "tipo": "preventiva",
-                    "alcance": alcance,
-                    "mensaje": "Se ha utilizado el 80% del presupuesto.",
-                    "porcentaje_consumido": formato_decimal(porcentaje),
-                }
-            )
-
         if gasto_real > presupuesto:
             alertas.append(
                 {
@@ -130,22 +116,6 @@ class ReportService:
                     alcance,
                 )
             )
-
-            if (
-                anio.presupuesto_general is not None
-                and celebracion.presupuesto is not None
-                and celebracion.presupuesto > anio.presupuesto_general
-            ):
-                alertas.append(
-                    {
-                        "codigo": "ASIGNACION_SUPERIOR_GENERAL",
-                        "alcance": alcance,
-                        "mensaje": (
-                            "La asignación de la celebración supera "
-                            "el presupuesto general."
-                        ),
-                    }
-                )
 
         return alertas
 

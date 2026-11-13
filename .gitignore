@@ -34,3 +34,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Archivos auxiliares temporales de datos locales
+backend/data/datos_compras.backup.json
+backend/data/datos_compras.json.vacio
+backend/data/datos_compras.vacio.json
