@@ -188,52 +188,34 @@ def test_calcular_gasto_estimado_no_modifica_gasto_real():
 # ALERTAS DINÁMICAS
 # ---------------------------------------------------------
 
-def test_genera_alerta_al_alcanzar_el_80_por_ciento():
+def test_no_genera_alerta_al_alcanzar_el_80_por_ciento():
     producto = crear_producto(
         cantidad="8",
         precio_estimado="100",
         estado=EstadoProducto.COMPRADO,
         precio_real="100",
     )
-
     anio = crear_anio(
         presupuesto_navidad="1000",
         productos_navidad=[producto],
     )
-
     alertas = ReportService.generar_alertas(anio)
-
-    alerta = next(
-        alerta
-        for alerta in alertas
-        if alerta["codigo"] == "PRESUPUESTO_80"
-        and alerta["alcance"] == "navidad"
-    )
-
-    assert alerta["tipo"] == "preventiva"
-    assert alerta["porcentaje_consumido"] == "80.00"
+    assert not any(alerta["alcance"] == "navidad" for alerta in alertas)
 
 
-def test_genera_alerta_al_superar_el_80_por_ciento():
+def test_no_genera_alerta_si_gasto_real_es_igual_al_presupuesto():
     producto = crear_producto(
-        cantidad="9",
+        cantidad="10",
         precio_estimado="100",
         estado=EstadoProducto.COMPRADO,
         precio_real="100",
     )
-
     anio = crear_anio(
         presupuesto_navidad="1000",
         productos_navidad=[producto],
     )
-
     alertas = ReportService.generar_alertas(anio)
-
-    assert any(
-        alerta["codigo"] == "PRESUPUESTO_80"
-        and alerta["alcance"] == "navidad"
-        for alerta in alertas
-    )
+    assert not any(alerta["alcance"] == "navidad" for alerta in alertas)
 
 
 def test_genera_alerta_de_presupuesto_excedido():
@@ -258,19 +240,13 @@ def test_genera_alerta_de_presupuesto_excedido():
     )
 
 
-def test_genera_alerta_de_asignacion_superior_al_presupuesto_general():
+def test_no_genera_alerta_por_asignacion_superior_al_presupuesto_general():
     anio = crear_anio(
         presupuesto_general="1000000",
         presupuesto_navidad="1200000",
     )
-
     alertas = ReportService.generar_alertas(anio)
-
-    assert any(
-        alerta["codigo"] == "ASIGNACION_SUPERIOR_GENERAL"
-        and alerta["alcance"] == "navidad"
-        for alerta in alertas
-    )
+    assert alertas == []
 
 
 def test_no_genera_alertas_si_no_hay_presupuestos():
