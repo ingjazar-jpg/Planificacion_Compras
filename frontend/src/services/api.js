@@ -67,8 +67,14 @@ export const api = {
       method: "PUT",
       body: jsonBody({ presupuesto: value }),
     }),
-  listProducts: (year, type) =>
-    request(`/anios/${year}/celebraciones/${type}/productos`),
+  listProducts: (year, type, filters = {}) => {
+    const params = new URLSearchParams();
+    if (filters.categoria) params.set("categoria", filters.categoria);
+    if (filters.estado) params.set("estado", filters.estado);
+    if (filters.buscar?.trim()) params.set("buscar", filters.buscar.trim());
+    const query = params.toString();
+    return request(`/anios/${year}/celebraciones/${type}/productos${query ? `?${query}` : ""}`);
+  },
   createProduct: (year, type, data) =>
     request(`/anios/${year}/celebraciones/${type}/productos`, {
       method: "POST",
